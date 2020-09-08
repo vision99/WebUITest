@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <title>TestForms</title> 
+            </f:facet>
+        </h:head>
+        <h:body>
+            <h:form >
+                <h:panelGroup style="width:30%; margin: 15px;" >
+                    <p:outputLabel id="url" for="inpurl" value = "URL"/>
+                    <p:inputText id="inpurl" value="#{mytest.url}" size= "100" style="display:block; margin: 10px " required="true"/>
+                    <p:outputLabel id="host" for="inphost" value = "HOST"/>
+                    <p:inputText id="inphost" value="#{mytest.host}" size= "50" style="display:block; margin: 10px " required="true"/>
+                    <p:outputLabel id="cacheClear" for="cacheclean" value = "CacheClear"/>
+                    <h:selectBooleanCheckbox value="#{mytest.isClean}" id="cacheclean"/>
+                </h:panelGroup>
+                <!--<h:outputScript name="jsf.js" library="javax.faces" target="head"/>-->
+                <p:dataTable value= "#{mytest.getTmpArr()}"  var="arr" rowIndexVar="rowIndex">
+                    <p:column headerText="Folder">
+                        <h:outputText value="#{arr}"/>
+                    </p:column>
+                    <p:column headerText="Action" style="width:15%; text-align: center;">
+                        <h:commandButton value="Протестировать"  title="#{arr.trim()}" styleClass="submit"  style="text-align: center;" actionListener="#{mytest.doTestOne(rowIndex)}">
+                            <f:ajax execute= "@form inpurl" render = "sizeList" />
+                            <!--{mytest.doTestOne(rowIndex)-->
+                        </h:commandButton>
+                    </p:column>
+                    <p:column headerText="Result">
+                        <h:outputText value="#{mytest.status}" id="asd" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:outputText value= "#{mytest.status}" id="sizeList" />
+        </h:body>
+    </f:view>
+</html>
+
+
